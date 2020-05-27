@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model name="Diffusion_BG" xmlns="http://www.cellml.org/cellml/1.1#" xmlns:cellml="http://www.cellml.org/cellml/1.1#" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <import xlink:href="Units.cellml">
+        <units name="mol_per_m3" units_ref="mol_per_m3"/>
+        <!--q-->
+        <units name="mol_per_m3_s" units_ref="mol_per_m3_s"/>
+        <!--v-->
+        <units name="per_m" units_ref="per_m"/>
+        <!--K_A-->
+        <units name="mol_per_s" units_ref="mol_per_s"/>
+        <!--K_Re-->
+        <units name="J_per_mol" units_ref="J_per_mol"/>
+        <!--u-->
+        <units name="C_per_mol" units_ref="C_per_mol"/>
+        <units name="J_per_mol_K" units_ref="J_per_mol_K"/>
+        <!-- R-->
+    </import>
+    <component name="main">
+        <variable name="t" units="second"/>
+        <variable initial_value="1" name="q_A" units="mol_per_m3"/>
+        <variable initial_value="0" name="q_B" units="mol_per_m3"/>
+        <variable name="v1" units="mol_per_s"/>
+        <variable initial_value="5263.6085" name="K1" units="per_m"/>
+        <variable initial_value="5263.6085" name="K2" units="per_m"/>
+        <variable initial_value="0.00019926" name="Kappa1" units="mol_per_m3_s"/>
+        <variable initial_value="8.314" name="R" units="J_per_mol_K"/>
+        <variable initial_value="300" name="T" units="kelvin"/>
+        <variable name="u_A" units="J_per_mol"/>
+        <variable name="u_B" units="J_per_mol"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>t</ci>
+                    </bvar>
+                    <ci>q_A</ci>
+                </apply>
+                <apply>
+                    <minus/>
+                    <ci>v1</ci>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>t</ci>
+                    </bvar>
+                    <ci>q_B</ci>
+                </apply>
+                <ci>v1</ci>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>v1</ci>
+                <apply>
+                    <times/>
+                    <ci>Kappa1</ci>
+                    <apply>
+                        <minus/>
+                        <apply>
+                            <times/>
+                            <ci>K1</ci>
+                            <ci>q_A</ci>
+                        </apply>
+                        <apply>
+                            <times/>
+                            <ci>K2</ci>
+                            <ci>q_B</ci>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>u_A</ci>
+                <apply>
+                    <times/>
+                    <ci>R</ci>
+                    <ci>T</ci>
+                    <apply>
+                        <ln/>
+                        <apply>
+                            <times/>
+                            <ci>K1</ci>
+                            <ci>q_A</ci>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>u_B</ci>
+                <apply>
+                    <times/>
+                    <ci>R</ci>
+                    <ci>T</ci>
+                    <apply>
+                        <ln/>
+                        <apply>
+                            <times/>
+                            <ci>K2</ci>
+                            <ci>q_B</ci>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+        </math>
+    </component>
+</model>
